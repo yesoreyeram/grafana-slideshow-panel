@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "panel",
+  "name": "Slide Show",
+  "id": "yesoreyeram-slideshow-panel",
+  "skipDataQuery": true,
+  "info": {
+    "description": "Slideshow Panel for Grafana",
+    "author": {
+      "name": "Sriramajeyam Sugumaran",
+      "url": "https://yesoreyeram.github.io"
+    },
+    "keywords": ["slideshow"],
+    "logos": {
+      "small": "img/slideshow.png",
+      "large": "img/slideshow.png"
+    },
+    "links": [],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=7.2.0",
+    "plugins": []
+  }
+}

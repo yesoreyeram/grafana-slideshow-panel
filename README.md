@@ -1,0 +1,1 @@
+# Grafana SlideShow Panel
