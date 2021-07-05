@@ -1,5 +1,6 @@
 import React from 'react';
 import { PanelProps, textUtil } from '@grafana/data';
+import { useTheme } from '@grafana/ui';
 import { Slide, Zoom, Fade } from 'react-slideshow-image';
 import MarkdownIt from 'markdown-it';
 import { SlideShowPanelOptions, SlideShowOptions } from 'types';
@@ -29,44 +30,41 @@ const Wrapper: React.FC<SlideShowOptions> = props => {
 interface SlideShowPanelProps extends PanelProps<SlideShowPanelOptions> {}
 
 export const SlideShowPanel = (props: SlideShowPanelProps) => {
+  const theme = useTheme();
   const { options, width, height } = props;
-  const { slides = [] } = options;
-  slides.push({
-    backgroundImage:
-      'https://images.unsplash.com/photo-1622495966349-2857f74777a0?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80',
-  });
-  slides.push({
-    backgroundImage:
-      'https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80',
-    content: '# Welcome to Grafana slide show',
-  });
-  slides.push({
-    backgroundColor: 'orange',
-    content: `# Some markdown content
-You can customize colors and content too
-More detail [here](http://nowhere)`,
-  });
+  const { defaultSlide, slides = [] } = options;
+  if (slides.length === 0) {
+    slides.push({
+      bgImage: '/public/img/login_background_dark.svg',
+      content: 'Grafana slideshow',
+    });
+  }
   return (
     <div>
-      <Wrapper {...options}>
-        {slides.map(slide => {
-          return (
-            <div
-              style={{
-                height,
-                width,
-                padding: '10px',
-                textAlign: slide.textAlign,
-                color: slide.color || 'black',
-                backgroundColor: slide.backgroundColor,
-                backgroundImage: `url("${slide.backgroundImage}")`,
-                backgroundSize: 'cover',
-              }}
-            >
-              <div dangerouslySetInnerHTML={{ __html: markdownToHTML(slide.content || '') }}></div>
-            </div>
-          );
-        })}
+      <Wrapper
+        {...options}
+        arrows={slides.length > 1 ? options.arrows : false}
+        autoplay={slides.length > 1 ? options.autoplay : false}
+      >
+        {slides
+          .filter(slide => !slide.disable)
+          .map(slide => {
+            return (
+              <div
+                style={{
+                  height,
+                  width,
+                  padding: '10px',
+                  textAlign: slide.textAlign || defaultSlide.textAlign || 'left',
+                  color: slide.color || defaultSlide.color || theme.colors.text,
+                  backgroundColor: slide.bgColor || defaultSlide.bgColor || theme.colors.bg1,
+                  backgroundImage: `url("${slide.bgImage || defaultSlide.bgImage}")`,
+                  backgroundSize: 'cover',
+                }}
+                dangerouslySetInnerHTML={{ __html: markdownToHTML(slide.content || '') }}
+              ></div>
+            );
+          })}
       </Wrapper>
     </div>
   );

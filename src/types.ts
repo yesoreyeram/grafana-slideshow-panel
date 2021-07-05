@@ -12,12 +12,14 @@ export type SlideShowOptions = {
   Easing: 'linear' | 'ease' | 'ease-in' | 'ease-out' | 'cubic' | 'cubic-in' | 'cubic-out';
 };
 export type SlideConfig = {
-  backgroundColor?: string;
-  backgroundImage?: string;
+  disable?: boolean;
+  bgColor?: string;
+  bgImage?: string;
   color?: string;
   content?: string;
   textAlign?: 'left' | 'center' | 'right';
 };
 export type SlideShowPanelOptions = SlideShowOptions & {
+  defaultSlide: SlideConfig;
   slides: SlideConfig[];
 };
