@@ -60,6 +60,7 @@ export const SlideShowPanel = (props: SlideShowPanelProps) => {
                   backgroundColor: slide.bgColor || defaultSlide.bgColor || theme.colors.bg1,
                   backgroundImage: `url("${slide.bgImage || defaultSlide.bgImage}")`,
                   backgroundSize: 'cover',
+                  overflowY: 'scroll',
                 }}
                 dangerouslySetInnerHTML={{ __html: markdownToHTML(slide.content || '') }}
               ></div>
