@@ -49,6 +49,36 @@ export const SlideShowPanel = (props: SlideShowPanelProps) => {
         {slides
           .filter(slide => !slide.disable)
           .map(slide => {
+            if (slide.mode === 'iframe') {
+              return (
+                <div
+                  style={{
+                    width,
+                    height,
+                    textAlign: slide.textAlign || defaultSlide.textAlign || 'left',
+                    color: slide.color || defaultSlide.color || theme.colors.text,
+                    backgroundColor: slide.bgColor || defaultSlide.bgColor || theme.colors.bg1,
+                    backgroundImage: `url("${slide.bgImage || defaultSlide.bgImage}")`,
+                    backgroundSize: 'cover',
+                  }}
+                >
+                  {slide.content && (
+                    <div
+                      style={{ width: width / 2, float: 'left', padding: '10px' }}
+                      dangerouslySetInnerHTML={{ __html: markdownToHTML(slide.content || '') }}
+                    ></div>
+                  )}
+                  <div style={{ float: 'left', width: width / 2, padding: '10px' }}>
+                    <iframe
+                      src={slide.url}
+                      width={(slide.content ? width / 2 : width) - 20}
+                      height={height - 20}
+                      frameBorder="0"
+                    ></iframe>
+                  </div>
+                </div>
+              );
+            }
             return (
               <div
                 style={{

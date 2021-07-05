@@ -58,6 +58,7 @@ export const SlideEditor = ({ value: slides, onChange }: SlideEditorProps) => {
   const addSlide = () => {
     const newSlides: SlideConfig[] = cloneDeep(slides || []);
     newSlides.push({
+      mode: 'text',
       content: 'My awesome slide',
       bgColor: '',
       bgImage: '',
@@ -85,6 +86,23 @@ export const SlideEditor = ({ value: slides, onChange }: SlideEditorProps) => {
       {slides.map((slide, index) => (
         <>
           <h5>Step {index + 1}</h5>
+          <div className="gf-form">
+            <InlineFormLabel>Mode</InlineFormLabel>
+            <RadioButtonGroup
+              options={[
+                { label: 'Text / Markdown', value: 'text' },
+                { label: 'IFrame', value: 'iframe' },
+              ]}
+              value={slide.mode || 'text'}
+              onChange={e => onValueChange(`${index}.mode`, e + '')}
+            />
+          </div>
+          {slide.mode === 'iframe' && (
+            <div className="gf-form">
+              <InlineFormLabel>URL</InlineFormLabel>
+              <Input css={{}} value={slide.url} onChange={e => onValueChange(`${index}.url`, e.currentTarget.value)} />
+            </div>
+          )}
           <div className="gf-form">
             <InlineFormLabel>Content</InlineFormLabel>
             <TextArea
