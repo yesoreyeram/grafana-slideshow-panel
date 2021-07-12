@@ -33,10 +33,10 @@ export const plugin = new PanelPlugin<SlideShowPanelOptions>(SlideShowPanel).set
       defaultValue: 1000,
       category: ['Slideshow Settings'],
     })
-    .addNumberInput({
+    .addTextInput({
       path: 'defaultIndex',
       name: 'defaultIndex',
-      defaultValue: 0,
+      defaultValue: '0',
       category: ['Slideshow Settings'],
     })
     .addBooleanSwitch({
@@ -72,7 +72,7 @@ export const plugin = new PanelPlugin<SlideShowPanelOptions>(SlideShowPanel).set
     .addBooleanSwitch({
       path: 'canSwipe',
       name: 'canSwipe',
-      defaultValue: true,
+      defaultValue: false,
       category: ['Slideshow Settings'],
     })
     .addRadio({
@@ -89,22 +89,22 @@ export const plugin = new PanelPlugin<SlideShowPanelOptions>(SlideShowPanel).set
           { label: 'zoom-out', value: 'zoom-out' },
         ],
       },
-    })
-    .addSelect({
-      path: 'Easing',
-      name: 'Easing',
-      defaultValue: 'linear',
-      category: ['Slideshow Settings'],
-      settings: {
-        options: [
-          { label: 'linear', value: 'linear' },
-          { label: 'ease', value: 'ease' },
-          { label: 'ease-in', value: 'ease-in' },
-          { label: 'ease-out', value: 'ease-out' },
-          { label: 'cubic', value: 'cubic' },
-          { label: 'cubic-in', value: 'cubic-in' },
-          { label: 'cubic-out', value: 'cubic-out' },
-        ],
-      },
     });
+  // .addSelect({
+  //   path: 'Easing',
+  //   name: 'Easing',
+  //   defaultValue: 'linear',
+  //   category: ['Slideshow Settings'],
+  //   settings: {
+  //     options: [
+  //       { label: 'linear', value: 'linear' },
+  //       { label: 'ease', value: 'ease' },
+  //       { label: 'ease-in', value: 'ease-in' },
+  //       { label: 'ease-out', value: 'ease-out' },
+  //       { label: 'cubic', value: 'cubic' },
+  //       { label: 'cubic-in', value: 'cubic-in' },
+  //       { label: 'cubic-out', value: 'cubic-out' },
+  //     ],
+  //   },
+  // });
 });

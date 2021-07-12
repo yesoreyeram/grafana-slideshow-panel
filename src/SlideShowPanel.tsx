@@ -3,7 +3,7 @@ import { PanelProps, textUtil } from '@grafana/data';
 import { useTheme } from '@grafana/ui';
 import { Slide, Zoom, Fade } from 'react-slideshow-image';
 import MarkdownIt from 'markdown-it';
-import { SlideShowPanelOptions, SlideShowOptions } from 'types';
+import { SlideShowPanelOptions, SlideShowOptions, SlideConfig } from 'types';
 import 'react-slideshow-image/dist/styles.css';
 
 const markdownToHTML = (mdText: string) => {
@@ -31,7 +31,7 @@ interface SlideShowPanelProps extends PanelProps<SlideShowPanelOptions> {}
 
 export const SlideShowPanel = (props: SlideShowPanelProps) => {
   const theme = useTheme();
-  const { options, width, height } = props;
+  const { options, width, height, replaceVariables } = props;
   const { defaultSlide, slides = [] } = options;
   if (slides.length === 0) {
     slides.push({
@@ -39,14 +39,20 @@ export const SlideShowPanel = (props: SlideShowPanelProps) => {
       content: 'Grafana slideshow',
     });
   }
+  const interpolateQueries = (slides: SlideConfig[]): SlideConfig[] => {
+    return slides.map(slide => {
+      return { ...slide, content: replaceVariables(slide.content || '') };
+    });
+  };
   return (
     <div>
       <Wrapper
         {...options}
+        defaultIndex={+replaceVariables(options.defaultIndex + '') % options.slides.length}
         arrows={slides.length > 1 ? options.arrows : false}
         autoplay={slides.length > 1 ? options.autoplay : false}
       >
-        {slides
+        {interpolateQueries(slides)
           .filter(slide => !slide.disable)
           .map(slide => {
             if (slide.mode === 'iframe') {
